@@ -1,0 +1,14 @@
+{
+  "name": "أبو تالين للكهرباء والسباكة",
+  "short_name": "أبو تالين",
+  "description": "خدمات الكهرباء والسباكة للمنازل والفلل والمنشآت داخل مدينة الرياض.",
+  "lang": "ar-SA",
+  "dir": "rtl",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#071d35",
+  "theme_color": "#071d35",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

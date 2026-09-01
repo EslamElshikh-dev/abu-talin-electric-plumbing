@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://abu-talin-electric-plumbing.vercel.app/sitemap.xml
