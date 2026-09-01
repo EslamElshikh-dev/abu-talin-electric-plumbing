@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="brand" viewBox="0 0 64 64">
+    <path d="M34 7.5S15.5 27.2 15.5 40.5C15.5 51.1 23.8 59 34.5 59S53.5 51 53.5 40.5C53.5 27.2 34 7.5 34 7.5Z" fill="#49D6DF"/>
+    <path d="M36.1 14.8 23.6 36.5h9.2l-3.2 14.9 16.1-22.3h-9.1l3.9-14.3h-4.4Z" fill="#FFC04D" stroke="#07304A" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M44.8 34.2c1.6 3 2.4 5.3 2.4 7.3 0 4.3-2.6 8.1-6.4 9.8" fill="none" stroke="#E9FDFF" stroke-width="2.2" stroke-linecap="round" opacity=".72"/>
+  </symbol>
   <symbol id="bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z"/></symbol>
   <symbol id="droplet" viewBox="0 0 24 24"><path d="M12 2.7S5 10.1 5 15a7 7 0 0 0 14 0c0-4.9-7-12.3-7-12.3Z"/></symbol>
   <symbol id="phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></symbol>

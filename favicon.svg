@@ -1,11 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="أبو تالين للكهرباء والسباكة">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop stop-color="#071d35"/>
-      <stop offset="1" stop-color="#0b3954"/>
+    <linearGradient id="bg" x1="7" y1="5" x2="57" y2="59" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#04182B"/>
+      <stop offset="1" stop-color="#0A405C"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="17" fill="url(#g)"/>
-  <path d="M36 6 18 35h13l-4 23 19-32H33z" fill="#ffbd48"/>
-  <path d="M49 33c4 5 7 9 7 14a8 8 0 0 1-16 0c0-5 4-10 9-14Z" fill="#49d6df" stroke="#071d35" stroke-width="2"/>
+  <rect x="1" y="1" width="62" height="62" rx="19" fill="url(#bg)"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="18.5" fill="none" stroke="#FFFFFF" stroke-opacity=".14"/>
+  <path d="M34 7.5S15.5 27.2 15.5 40.5C15.5 51.1 23.8 59 34.5 59S53.5 51 53.5 40.5C53.5 27.2 34 7.5 34 7.5Z" fill="#49D6DF"/>
+  <path d="M36.1 14.8 23.6 36.5h9.2l-3.2 14.9 16.1-22.3h-9.1l3.9-14.3h-4.4Z" fill="#FFC04D" stroke="#07304A" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M44.8 34.2c1.6 3 2.4 5.3 2.4 7.3 0 4.3-2.6 8.1-6.4 9.8" fill="none" stroke="#E9FDFF" stroke-width="2.2" stroke-linecap="round" opacity=".72"/>
 </svg>
