@@ -1,4 +1,4 @@
-import { cp, mkdir } from "node:fs/promises";
+import { cp, mkdir, rm } from "node:fs/promises";
 
 const files = [
   "index.html",
@@ -14,6 +14,12 @@ const files = [
   "sitemap.xml"
 ];
 
+const directories = ["assets", "services"];
+
+await rm("public", { recursive: true, force: true });
 await mkdir("public", { recursive: true });
-await Promise.all(files.map((file) => cp(file, `public/${file}`)));
-console.log(`Prepared ${files.length} static files in public/.`);
+await Promise.all([
+  ...files.map((file) => cp(file, `public/${file}`)),
+  ...directories.map((directory) => cp(directory, `public/${directory}`, { recursive: true }))
+]);
+console.log(`Prepared ${files.length} root files and ${directories.length} asset directories in public/.`);

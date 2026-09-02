@@ -1,3 +1,4 @@
 public/
 .vercel/
+generated_images/
 *-source.zip
