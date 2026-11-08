@@ -1,13 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="أبو تالين للكهرباء والسباكة">
-  <defs>
-    <linearGradient id="bg" x1="7" y1="5" x2="57" y2="59" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#04182B"/>
-      <stop offset="1" stop-color="#0A405C"/>
-    </linearGradient>
-  </defs>
-  <rect x="1" y="1" width="62" height="62" rx="19" fill="url(#bg)"/>
-  <rect x="1.5" y="1.5" width="61" height="61" rx="18.5" fill="none" stroke="#FFFFFF" stroke-opacity=".14"/>
-  <path d="M34 7.5S15.5 27.2 15.5 40.5C15.5 51.1 23.8 59 34.5 59S53.5 51 53.5 40.5C53.5 27.2 34 7.5 34 7.5Z" fill="#49D6DF"/>
-  <path d="M36.1 14.8 23.6 36.5h9.2l-3.2 14.9 16.1-22.3h-9.1l3.9-14.3h-4.4Z" fill="#FFC04D" stroke="#07304A" stroke-width="2" stroke-linejoin="round"/>
-  <path d="M44.8 34.2c1.6 3 2.4 5.3 2.4 7.3 0 4.3-2.6 8.1-6.4 9.8" fill="none" stroke="#E9FDFF" stroke-width="2.2" stroke-linecap="round" opacity=".72"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ساندويتش بانل وديكورات ابو تالين">
+  <rect width="64" height="64" rx="16" fill="#082b3b"/>
+  <rect x="1" y="1" width="62" height="62" rx="15" fill="none" stroke="#bdd9d5" stroke-opacity=".2"/>
+  <path d="m10 34 22 12 22-12v5L32 51 10 39Z" fill="#50b9b8"/>
+  <path d="m10 24 22 12v8L10 32Z" fill="#bd9156"/>
+  <path d="m32 36 22-12v8L32 44Z" fill="#e8c793"/>
+  <path d="m10 24 22-12 22 12-22 12Z" fill="#f2f7f3"/>
+  <path d="m18 20 22 12m-14-16 22 12" fill="none" stroke="#a3beb9" stroke-width="2"/>
 </svg>

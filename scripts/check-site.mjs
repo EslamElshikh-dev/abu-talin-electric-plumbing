@@ -25,7 +25,7 @@ await Promise.all([...productionFiles, ...servicePages, ...serviceImages].map((f
 const pageEntries = await Promise.all(htmlFiles.map(async (file) => [file, await readFile(file, "utf8")]));
 const iconSprite = await readFile("icons.svg", "utf8");
 const iconIds = new Set([...iconSprite.matchAll(/<symbol id="([^"]+)"/g)].map((match) => match[1]));
-const required = ["أبو تالين", "0505174342", "966505174342"];
+const required = ["ساندويتش بانل وديكورات ابو تالين", "0505174342", "966505174342"];
 
 for (const [file, page] of pageEntries) {
   for (const value of required) {
@@ -33,7 +33,7 @@ for (const [file, page] of pageEntries) {
   }
   if (page.includes("mobile-bar")) throw new Error(`${file}: legacy mobile bar is still present`);
   if (!page.includes('class="floating-actions"')) throw new Error(`${file}: floating actions are missing`);
-  if (!page.includes("styles.css?v=20261109")) throw new Error(`${file}: stylesheet cache version is stale`);
+  if (!page.includes("styles.css?v=2026110902")) throw new Error(`${file}: stylesheet cache version is stale`);
 
   for (const match of page.matchAll(/icons\.svg(?:\?v=\d+)?#([a-z-]+)/g)) {
     if (!iconIds.has(match[1])) throw new Error(`${file}: unknown icon reference ${match[1]}`);
@@ -44,7 +44,7 @@ for (const [file, page] of pageEntries) {
   }
 }
 
-const forbidden = ["0534078570", "966534078570", "يوسف للكهرباء", "أبو ريان", "0557466230", "966557466230", "codex-preview", "google-site-verification", "googletagmanager"];
+const forbidden = ["أبو تالين للكهرباء والسباكة", "0534078570", "966534078570", "يوسف للكهرباء", "أبو ريان", "0557466230", "966557466230", "codex-preview", "google-site-verification", "googletagmanager"];
 for (const value of forbidden) {
   if (pageEntries.some(([, page]) => page.includes(value))) throw new Error(`Found source-project data: ${value}`);
 }

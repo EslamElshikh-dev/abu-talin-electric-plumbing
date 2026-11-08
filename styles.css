@@ -555,4 +555,21 @@ footer :is(.footer-bottom,.footerBottom,.footer-bottom__inner,.footer-bottom-inn
 .catalog-card--finishing .catalog-card__top b { color: #8d5b1b; background: #fff0cf; }
 .catalog-card--finishing .catalog-card__top span { color: #225869; background: #e2f2ef; }
 .illustration-label { position: absolute; z-index: 1; inset-inline-start: 14px; bottom: 14px; padding: 4px 10px; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; color: #fff; background: rgba(4,25,40,.8); font-size: .7rem; font-weight: 700; }
+/* Architectural identity: full Arabic name remains readable on small screens. */
+.brand { min-width: 0; }
+.brand > span:last-child { min-width: 0; }
+.brand strong { max-width: 310px; white-space: normal; text-wrap: balance; line-height: 1.55; }
+.brand-mark { flex: 0 0 auto; border-radius: 14px; }
+.brand-mark::after { border-radius: 10px; }
+.header-shell { gap: 20px; }
+@media (max-width: 980px) {
+  .site-header .brand { flex: 1 1 auto; max-width: calc(100% - 64px); }
+  .brand strong { max-width: 310px; white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.65; font-size: .86rem; }
+  .brand-mark { border-radius: 12px; }
+  .brand-mark::after { border-radius: 8px; }
+}
+@media (max-width: 380px) {
+  .site-header .brand strong { font-size: .77rem; }
+  .header-shell { gap: 12px; }
+}
 /* End Eslam responsive signature v2. */
