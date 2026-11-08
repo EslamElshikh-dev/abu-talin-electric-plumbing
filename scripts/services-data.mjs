@@ -300,7 +300,7 @@ export const services = [
 
 export const site = {
   origin: "https://abu-talin-electric-plumbing.vercel.app",
-  phoneDisplay: "0534078570",
-  phoneInternational: "+966534078570",
-  whatsapp: "966534078570"
+  phoneDisplay: "0505174342",
+  phoneInternational: "+966505174342",
+  whatsapp: "966505174342"
 };

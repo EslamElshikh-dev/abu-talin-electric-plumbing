@@ -25,7 +25,7 @@ await Promise.all([...productionFiles, ...servicePages, ...serviceImages].map((f
 const pageEntries = await Promise.all(htmlFiles.map(async (file) => [file, await readFile(file, "utf8")]));
 const iconSprite = await readFile("icons.svg", "utf8");
 const iconIds = new Set([...iconSprite.matchAll(/<symbol id="([^"]+)"/g)].map((match) => match[1]));
-const required = ["أبو تالين", "0534078570", "966534078570"];
+const required = ["أبو تالين", "0505174342", "966505174342"];
 
 for (const [file, page] of pageEntries) {
   for (const value of required) {
@@ -44,7 +44,7 @@ for (const [file, page] of pageEntries) {
   }
 }
 
-const forbidden = ["يوسف للكهرباء", "أبو ريان", "0557466230", "966557466230", "codex-preview", "google-site-verification", "googletagmanager"];
+const forbidden = ["0534078570", "966534078570", "يوسف للكهرباء", "أبو ريان", "0557466230", "966557466230", "codex-preview", "google-site-verification", "googletagmanager"];
 for (const value of forbidden) {
   if (pageEntries.some(([, page]) => page.includes(value))) throw new Error(`Found source-project data: ${value}`);
 }
