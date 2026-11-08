@@ -238,7 +238,7 @@ img, svg { display: block; max-width: 100%; }
 .service-hero-points .icon-svg { width: 16px; height: 16px; color: var(--water-dark); }
 .service-hero-media { position: relative; margin: 0; overflow: hidden; border: 8px solid rgba(255,255,255,.88); border-radius: 30px; background: var(--white); box-shadow: 0 30px 80px rgba(7,29,53,.18); transform: rotate(-1deg); }
 .service-hero-media::after { content: ""; position: absolute; inset: 0; border: 1px solid rgba(255,255,255,.45); border-radius: 22px; pointer-events: none; }
-.service-hero-media > img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.service-hero-media > img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
 .service-hero-media figcaption { position: absolute; right: 16px; bottom: 16px; left: 16px; display: flex; align-items: center; gap: 11px; padding: 12px 14px; border: 1px solid rgba(255,255,255,.18); border-radius: 16px; color: var(--white); background: rgba(3,18,33,.78); box-shadow: 0 12px 30px rgba(0,0,0,.18); backdrop-filter: blur(13px); }
 .service-hero-media figcaption > span { display: grid; place-items: center; flex: 0 0 auto; width: 42px; height: 42px; border-radius: 13px; color: var(--navy); background: var(--electric); }
 .service-hero-media figcaption > div { min-width: 0; }
@@ -547,4 +547,12 @@ footer :is(.footer-bottom,.footerBottom,.footer-bottom__inner,.footer-bottom-inn
 @media(max-width:480px){[data-eslam-signature=v1].eslam-credit.eslam-credit{gap:8px;min-block-size:48px;padding:8px 10px;border-radius:11px}[data-eslam-signature=v1].eslam-credit .eslam-credit__name{font-size:12.5px}[data-eslam-signature=v1].eslam-credit .eslam-credit__mark{flex-basis:30px;inline-size:30px;block-size:30px}[data-eslam-signature=v1].eslam-credit .eslam-credit__mark>img,[data-eslam-signature=v1].eslam-credit .eslam-credit__monogram{inline-size:26px!important;block-size:26px!important;width:26px!important;height:26px!important}[data-eslam-signature=v1].eslam-credit .eslam-credit__arrow{flex-basis:12px;inline-size:12px!important;block-size:12px!important;width:12px!important;height:12px!important;margin-inline-start:2px}}
 @media(prefers-reduced-motion:reduce){[data-eslam-signature=v1].eslam-credit.eslam-credit{transition:none}}
 @media(max-width:1023px){footer :is(div,p):has(>[data-eslam-signature=v1]){display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center;gap:14px;text-align:center}footer :is(div,p):has(>[data-eslam-signature=v1])>[data-eslam-signature=v1]{order:-1;align-self:center}}
+
+/* Finishing services use the established navy, turquoise, and warm-gold palette. */
+.section--finishing { background: radial-gradient(circle at 9% 10%, rgba(73,214,223,.12), transparent 25%), linear-gradient(145deg, #f4f8f7, #fffaf1); }
+.section--finishing .eyebrow { color: #946015; background: #fff0ce; padding: 7px 13px; }
+.catalog-card--finishing { border-color: #dbe5e2; }
+.catalog-card--finishing .catalog-card__top b { color: #8d5b1b; background: #fff0cf; }
+.catalog-card--finishing .catalog-card__top span { color: #225869; background: #e2f2ef; }
+.illustration-label { position: absolute; z-index: 1; inset-inline-start: 14px; bottom: 14px; padding: 4px 10px; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; color: #fff; background: rgba(4,25,40,.8); font-size: .7rem; font-weight: 700; }
 /* End Eslam responsive signature v2. */

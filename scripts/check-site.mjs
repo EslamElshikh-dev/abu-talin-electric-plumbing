@@ -33,7 +33,7 @@ for (const [file, page] of pageEntries) {
   }
   if (page.includes("mobile-bar")) throw new Error(`${file}: legacy mobile bar is still present`);
   if (!page.includes('class="floating-actions"')) throw new Error(`${file}: floating actions are missing`);
-  if (!page.includes("styles.css?v=20260905")) throw new Error(`${file}: stylesheet cache version is stale`);
+  if (!page.includes("styles.css?v=20261109")) throw new Error(`${file}: stylesheet cache version is stale`);
 
   for (const match of page.matchAll(/icons\.svg(?:\?v=\d+)?#([a-z-]+)/g)) {
     if (!iconIds.has(match[1])) throw new Error(`${file}: unknown icon reference ${match[1]}`);
