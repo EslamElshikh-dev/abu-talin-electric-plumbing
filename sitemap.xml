@@ -1,28 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/about</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/contact</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/electrical-installation</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/electrical-finishing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/electrical-fault-repair</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/wiring-repair</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/indoor-lighting</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/outdoor-lighting</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/switches-sockets</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/electrical-panels</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/ac-high-load-circuits</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/plumbing-installation</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/water-drainage-lines</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/water-leak-repair</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/drain-unblocking</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/sanitary-fixtures</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/water-heaters</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/tanks-floats</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/kitchen-bathroom-maintenance</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/water-pumps-pressure</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/sandwich-panel</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/gypsum-board</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/wall-ceiling-decor</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://abu-talin-electric-plumbing.vercel.app/</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://abu-talin-electric-plumbing.vercel.app/about</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://abu-talin-electric-plumbing.vercel.app/contact</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/sandwich-panel</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/gypsum-board</loc><lastmod>2026-11-09</lastmod></url>
+  <url><loc>https://abu-talin-electric-plumbing.vercel.app/services/wall-ceiling-decor</loc><lastmod>2026-11-09</lastmod></url>
 </urlset>

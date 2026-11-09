@@ -1,9 +1,9 @@
 import { mkdir, writeFile } from "node:fs/promises";
-import { services, site } from "./services-data.mjs";
+import { services, site, retiredServiceSlugs } from "./services-data.mjs";
 
-const cssVersion = "2026110902";
-const iconVersion = "2026110902";
-const scriptVersion = "20260902";
+const cssVersion = "2026110903";
+const iconVersion = "2026110903";
+const scriptVersion = "2026110903";
 
 const categoryLabel = (service) => ({ electric: "كهرباء", water: "سباكة", finishing: "ديكور وتشطيب" })[service.category];
 const categoryHeading = (service) => ({ electric: "خدمة كهربائية", water: "خدمة سباكة", finishing: "خدمة ديكور وتشطيب" })[service.category];
@@ -19,7 +19,7 @@ function header(active = "services") {
   <header class="site-header"><div class="container header-shell">
     <a class="brand" href="/" aria-label="ساندويتش بانل وديكورات ابو تالين - الرئيسية"><span class="brand-mark" aria-hidden="true"><svg class="brand-mark__logo"><use href="/icons.svg?v=${iconVersion}#brand"></use></svg></span><span><strong>ساندويتش بانل وديكورات ابو تالين</strong><small>ساندويتش بانل · جبس · ديكور</small></span></a>
     <nav class="desktop-nav" aria-label="التنقل الرئيسي"><a href="/"${active === "home" ? " aria-current=\"page\"" : ""}>الرئيسية</a><a href="/services"${active === "services" ? " aria-current=\"page\"" : ""}>الخدمات</a><a href="/about"${active === "about" ? " aria-current=\"page\"" : ""}>من نحن</a><a href="/contact"${active === "contact" ? " aria-current=\"page\"" : ""}>تواصل معنا</a></nav>
-    <a class="header-cta" href="https://wa.me/${site.whatsapp}" target="_blank" rel="noreferrer">${icon("whatsapp", true)}اطلب الخدمة</a>
+    <a class="header-cta" href="https://wa.me/${site.whatsapp}" target="_blank" rel="noreferrer">${icon("whatsapp", true)}ناقش مشروعك</a>
     <button class="menu-button" type="button" aria-label="فتح قائمة التنقل" aria-expanded="false" data-menu-button><span></span><span></span><span></span></button>
   </div></header>
   <nav class="mobile-menu" aria-label="التنقل على الجوال" data-mobile-menu hidden><a href="/">الرئيسية</a><a href="/services">جميع الخدمات</a><a href="/about">من نحن</a><a href="/contact">تواصل معنا</a><a class="menu-call" href="tel:${site.phoneInternational}">اتصل الآن — <bdi>${site.phoneDisplay}</bdi></a></nav>`;
@@ -41,7 +41,7 @@ function serviceCard(service, heading = "h3", eager = false) {
   </article>`;
 }
 
-function documentHead({ title, description, canonical, ogType = "website", image = site.shareImage, schema }) {
+function documentHead({ title, description, canonical, ogType = "website", image = site.shareImage, schema = [], robots = "index, follow, max-image-preview:large, max-snippet:-1" }) {
   return `<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -49,7 +49,7 @@ function documentHead({ title, description, canonical, ogType = "website", image
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>${title}</title>
   <meta name="description" content="${description}">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta name="robots" content="${robots}">
   <meta name="theme-color" content="#071d35">
   <link rel="canonical" href="${canonical}">
   <link rel="manifest" href="/manifest.webmanifest?v=${iconVersion}">
@@ -71,7 +71,7 @@ ${image ? `  <meta property="og:image" content="${image}"><meta property="og:ima
   <meta name="twitter:description" content="${description}">
   <meta name="twitter:image" content="${image}">
   <meta name="twitter:image:alt" content="${image === site.shareImage ? site.name : title}">
-  <script type="application/ld+json">${JSON.stringify(schema)}</script>
+  <script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@graph": [...commonGraph(), ...schema] }).replace(/</g, "\\u003c")}</script>
 <meta name="creator" content="المهندس إسلام الشيخ"><style id="eslam-developer-credit-style">:root{--es-credit-accent:var(--electric,#ffbd48)}
 /* Unified developer signature: Eslam Elshikh. Keep client branding and rights intact. */
 .eslam-credit.eslam-credit{display:inline-flex;align-items:center;justify-content:flex-start;gap:10px;position:relative;isolation:isolate;flex:0 1 auto;max-width:100%;min-height:52px;width:max-content;padding:8px 12px;border:1px solid color-mix(in srgb,var(--es-credit-accent) 36%,transparent);border-radius:14px;background:color-mix(in srgb,var(--es-credit-accent) 7%,transparent);color:inherit;font:inherit;line-height:1.6;text-align:start;text-decoration:none;box-shadow:inset 0 1px 0 #ffffff0c;transition:border-color .2s ease,background-color .2s ease,transform .2s ease;white-space:normal;vertical-align:middle;box-sizing:border-box}
@@ -87,126 +87,119 @@ ${image ? `  <meta property="og:image" content="${image}"><meta property="og:ima
 .eslam-credit-slot{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:12px;width:100%;max-width:1200px;margin:0 auto;padding:16px 20px;box-sizing:border-box}
 @media(max-width:480px){.eslam-credit.eslam-credit{gap:8px;padding:8px 10px;min-height:50px}.eslam-credit .eslam-credit__name{font-size:11px}.eslam-credit .eslam-credit__role{font-size:9px}.eslam-credit-slot{justify-content:center;padding:16px}}
 @media(prefers-reduced-motion:reduce){.eslam-credit.eslam-credit{transition:none}.eslam-credit.eslam-credit:hover{transform:none}}
-</style><script id="eslam-developer-credit-schema" type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://www.eslam-elshikh.com/#person","name":"إسلام الشيخ","alternateName":["المهندس إسلام الشيخ","Eslam Elshikh"],"url":"https://www.eslam-elshikh.com/","sameAs":["https://github.com/EslamElshikh-dev"]},{"@type":"WebSite","@id":"https://abu-talin-electric-plumbing.vercel.app/#website","url":"https://abu-talin-electric-plumbing.vercel.app/","creator":{"@id":"https://www.eslam-elshikh.com/#person"},"creditText":"تصميم وبرمجة وتطوير الموقع: المهندس إسلام الشيخ — https://www.eslam-elshikh.com/","name":"ساندويتش بانل وديكورات ابو تالين"}]}</script></head>`;
+</style></head>`;
 }
 
-function renderServicesIndex() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: `خدمات ${site.name} بالرياض`,
-    url: `${site.origin}/services`,
-    inLanguage: "ar-SA",
-    isPartOf: { "@id": `${site.origin}/#website` },
-    mainEntity: {
-      "@type": "ItemList",
-      numberOfItems: services.length,
-      itemListElement: [...services.filter((service) => service.category === "finishing"), ...services.filter((service) => service.category !== "finishing")].map((service, index) => ({ "@type": "ListItem", position: index + 1, name: service.title, url: serviceUrl(service) }))
-    }
-  };
-  const electric = services.filter((service) => service.category === "electric");
-  const water = services.filter((service) => service.category === "water");
-  const finishing = services.filter((service) => service.category === "finishing");
-  return `${documentHead({ title: `الخدمات | ${site.name} بالرياض`, description: "استعرض خدمات الساندويتش بانل والجبس وديكورات الجدران والأسقف، إلى جانب الكهرباء والسباكة في الرياض.", canonical: `${site.origin}/services`, schema })}
-<body>
-  ${header("services")}
-  <main id="main-content">
-    <section class="page-hero services-hero"><div class="container"><div class="breadcrumbs"><a href="/">الرئيسية</a> / الخدمات</div><span class="eyebrow">خدمات للمنازل والمنشآت</span><h1>خدمات الساندويتش بانل والديكورات في الرياض</h1><p>تصفح خدمات الساندويتش بانل والجبس والديكور، إلى جانب أعمال الكهرباء والسباكة؛ لكل خدمة تفاصيل تساعدك على وصف طلبك.</p><div class="service-jump"><a href="#finishing-services">${icon("services")} الساندويتش بانل والديكور</a><a href="#electric-services">${icon("bolt")} خدمات الكهرباء</a><a href="#water-services">${icon("droplet")} خدمات السباكة</a></div></div></section>
 
-    <section class="section section--finishing" id="finishing-services"><div class="container"><div class="section-head"><span class="eyebrow">أعمال التشطيب</span><h2>تفاصيل تصنع المكان</h2><p>ساندويتش بانل، وجبس بورد، وأفكار للجدران والأسقف بتفاصيل تناسب مساحة المشروع.</p></div><div class="catalog">${finishing.map((service, index) => serviceCard(service, "h3", index === 0)).join("\n")}</div></div></section>
+const modified = "2026-11-09";
+const businessId = `${site.origin}/#business`;
+const websiteId = `${site.origin}/#website`;
+const city = { "@type": "City", name: "الرياض" };
+const serviceId = (service) => `${serviceUrl(service)}#service`;
+const contactLink = (service) => `/contact${service ? `?service=${service.slug}` : ""}`;
 
-    <section class="section section--soft" id="electric-services"><div class="container"><div class="section-head"><span class="eyebrow">قسم الكهرباء</span><h2>من التأسيس حتى تشخيص الأعطال</h2><p>تسع خدمات تغطي الدوائر واللوحات والإنارة والمفاتيح والأجهزة عالية الأحمال داخل المنازل والفلل والمنشآت.</p></div><div class="catalog">${electric.map((service, index) => serviceCard(service, "h3", index < 3)).join("\n")}</div></div></section>
-
-    <section class="section" id="water-services"><div class="container"><div class="section-head"><span class="eyebrow eyebrow--water">قسم السباكة</span><h2>تمديدات وصيانة المياه والصرف</h2><p>تسع خدمات للتأسيس والتسربات والانسدادات والأدوات الصحية والسخانات والخزانات والمضخات.</p></div><div class="catalog">${water.map((service) => serviceCard(service)).join("\n")}</div><div class="section-action"><a class="button button--dark" href="https://wa.me/${site.whatsapp}" target="_blank" rel="noreferrer">أرسل تفاصيل الخدمة عبر واتساب</a></div></div></section>
-
-    <section class="contact-banner"><div class="container contact-banner__inner"><div><span class="eyebrow eyebrow--light">تحتاج مساعدة في الاختيار؟</span><h2>صف الحالة وسنرتب نوع الخدمة</h2><p>أرسل الحي ونوع الموقع ووصف المشكلة وصورًا آمنة إن أمكن.</p></div><div class="contact-banner__actions"><a class="button button--primary" href="https://wa.me/${site.whatsapp}" target="_blank" rel="noreferrer">${icon("whatsapp", true)}واتساب</a><a class="button button--water" href="tel:${site.phoneInternational}">${icon("phone")}<bdi>${site.phoneDisplay}</bdi></a></div></div></section>
-  </main>
-  ${footer()}
-</body>
-</html>`;
+function commonGraph() {
+  return [
+    {
+      "@type": "HomeAndConstructionBusiness", "@id": businessId,
+      name: site.name, url: `${site.origin}/`, description: site.description,
+      telephone: site.phoneInternational,
+      address: { "@type": "PostalAddress", addressLocality: "الرياض", addressRegion: "منطقة الرياض", addressCountry: "SA" },
+      areaServed: city,
+      logo: { "@type": "ImageObject", "@id": `${site.origin}/#logo`, url: `${site.origin}/assets/brand/icon-512.png`, width: 512, height: 512, caption: site.name },
+      image: { "@id": `${site.origin}/#brand-image` },
+      contactPoint: { "@type": "ContactPoint", telephone: site.phoneInternational, contactType: "customer service", availableLanguage: ["ar"], areaServed: city },
+      hasOfferCatalog: { "@type": "OfferCatalog", name: "خدمات الساندويتش بانل والجبس والديكور", itemListElement: services.map((service) => ({ "@type": "Offer", itemOffered: { "@id": serviceId(service) } })) }
+    },
+    { "@type": "WebSite", "@id": websiteId, url: `${site.origin}/`, name: site.name, inLanguage: "ar-SA", publisher: { "@id": businessId }, creator: { "@id": "https://www.eslam-elshikh.com/#person" }, creditText: "تصميم وبرمجة وتطوير الموقع: المهندس إسلام الشيخ" },
+    { "@type": "Person", "@id": "https://www.eslam-elshikh.com/#person", name: "إسلام الشيخ", alternateName: ["المهندس إسلام الشيخ", "Eslam Elshikh"], url: "https://www.eslam-elshikh.com/", sameAs: ["https://github.com/EslamElshikh-dev"] },
+    { "@type": "ImageObject", "@id": `${site.origin}/#brand-image`, url: site.shareImage, contentUrl: site.shareImage, width: 1200, height: 630, caption: site.name, inLanguage: "ar-SA" },
+    ...services.map((service) => ({ "@type": "Service", "@id": serviceId(service), name: service.title, serviceType: service.title, description: service.summary, url: serviceUrl(service), image: imageUrl(service), areaServed: city, provider: { "@id": businessId } }))
+  ];
 }
 
-function renderServicePage(service) {
-  const related = service.related.map((slug) => services.find((candidate) => candidate.slug === slug)).filter(Boolean);
-  const category = categoryLabel(service);
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Service",
-        "@id": `${serviceUrl(service)}#service`,
-        name: service.title,
-        description: service.summary,
-        url: serviceUrl(service),
-        image: imageUrl(service),
-        serviceType: `${category} منازل وفلل`,
-        areaServed: { "@type": "City", name: "الرياض" },
-        provider: { "@id": `${site.origin}/#business`, name: site.name }
-      },
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "الرئيسية", item: `${site.origin}/` },
-          { "@type": "ListItem", position: 2, name: "الخدمات", item: `${site.origin}/services` },
-          { "@type": "ListItem", position: 3, name: service.title, item: serviceUrl(service) }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        mainEntity: service.faqs.map(([question, answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } }))
-      }
-    ]
-  };
-  const isElectric = service.category === "electric";
-  const isFinishing = service.category === "finishing";
-  const prep = isFinishing
-    ? ["أرسل أبعاد المساحة التقريبية ونوع الموقع.", "شارك فكرة التصميم أو صورة مرجعية إن توفرت.", "وضح المواد أو الألوان المفضلة والفتحات المطلوبة.", "أرسل اسم الحي وصورًا آمنة للموقع."]
-    : isElectric
-      ? ["لا تلمس أي سلك مكشوف أو نقطة ساخنة.", "أوقف استخدام الجهاز المرتبط بالعطل.", "جهّز صورة اللوحة أو النقطة من مسافة آمنة.", "أرسل الحي ونوع العقار ووقت ظهور المشكلة."]
-      : ["أغلق المحبس القريب إذا كان الوصول إليه آمنًا.", "أبعد الأغراض عن منطقة الماء من دون لمس كهرباء.", "التقط صورًا من مسافة آمنة توضح المصدر الظاهر.", "أرسل الحي ونوع العقار ووقت ظهور المشكلة."];
-  const safetyNote = isFinishing
-    ? "تُراجع حالة السقف أو الجدار ونقاط التثبيت والتمديدات القائمة قبل العمل، ويُترك تنفيذ الأعمال المرتفعة والمكونات الكهربائية للمختصين."
-    : isElectric
-      ? "عند وجود دخان أو شرر أو رائحة احتراق، ابتعد عن الموقع ولا تستخدم الماء. افصل المصدر فقط إذا كان الوصول إلى القاطع آمنًا، واتصل بالطوارئ عند الخطر المباشر."
-      : "إذا وصل الماء إلى مقبس أو جهاز كهربائي، لا تلمس الماء أو المفتاح. ابتعد عن المكان وافصل الكهرباء من نقطة آمنة فقط، واتصل بالطوارئ عند الخطر المباشر.";
-
-  return `${documentHead({ title: `${service.title} في الرياض | ${site.name}`, description: `${service.summary} اطلب الخدمة في مدينة الرياض عبر الاتصال أو واتساب على ${site.phoneDisplay}.`, canonical: serviceUrl(service), ogType: "article", image: imageUrl(service), schema })}
-<body>
-  ${header("services")}
-  <main id="main-content">
-    <section class="service-detail-hero${service.category === "water" ? " service-detail-hero--water" : ""}"><div class="container service-hero-grid"><div class="service-hero-copy"><div class="breadcrumbs"><a href="/">الرئيسية</a> / <a href="/services">الخدمات</a> / ${service.title}</div><span class="eyebrow${service.category === "water" ? " eyebrow--water" : ""}">${categoryHeading(service)} في الرياض</span><h1>${service.title}</h1><p>${service.lede}</p><div class="hero__actions"><a class="button button--primary" href="${whatsappUrl(service)}" target="_blank" rel="noreferrer">${icon("whatsapp", true)}اطلب الخدمة عبر واتساب</a><a class="button button--outline" href="tel:${site.phoneInternational}">${icon("phone")}اتصل الآن</a></div><ul class="service-hero-points"><li>${icon("shield")} فحص واضح قبل التنفيذ</li><li>${icon("services")} للمنازل والفلل والمنشآت</li><li>${icon("home")} داخل مدينة الرياض</li></ul></div><figure class="service-hero-media"><img src="/assets/services/${service.image}" alt="${service.imageAlt ?? `صورة توضيحية لخدمة ${service.title} في الرياض`}" width="1200" height="800" fetchpriority="high" decoding="async"><figcaption><span>${icon(service.icon)}</span><div><b>${service.title}</b><small>${isFinishing ? "رسم توضيحي · خدمة داخل الرياض" : "خدمة ميدانية داخل مدينة الرياض"}</small></div></figcaption></figure></div></section>
-
-    <section class="section service-detail-section"><div class="container service-layout"><article class="service-content">
-      <section class="content-block"><span class="eyebrow${service.category === "water" ? " eyebrow--water" : ""}">نطاق الخدمة</span><h2>ماذا تشمل خدمة ${service.title}؟</h2><p>${service.summary} يبدأ تحديد النطاق من حالة الموقع الفعلية والمواد الموجودة، ثم تُوضح الأعمال المطلوبة قبل التنفيذ قدر الإمكان.</p><ul class="check-grid">${service.scope.map((item) => `<li>${icon("shield")}<span>${item}</span></li>`).join("")}</ul></section>
-
-      <section class="content-block content-block--soft"><span class="eyebrow eyebrow--water">مؤشرات مهمة</span><h2>متى تحتاج هذه الخدمة؟</h2><p>${isFinishing ? "أمثلة تساعدك على تحديد احتياجك قبل التواصل:" : "وجود إحدى العلامات التالية لا يحدد السبب وحده، لكنه يساعد على وصف الحالة وتجهيز الفحص المناسب:"}</p><div class="signal-grid">${service.signals.map((item, index) => `<div><b>${String(index + 1).padStart(2, "0")}</b><span>${item}</span></div>`).join("")}</div></section>
-
-      <section class="content-block"><span class="eyebrow">طريقة التنفيذ</span><h2>${isFinishing ? "خطوات مرتبة من الفكرة إلى التنفيذ" : "خطوات مرتبة من الفحص إلى الاختبار"}</h2><div class="detail-process">${service.steps.map((step, index) => `<div><b>${index + 1}</b><span>${step}</span></div>`).join("")}</div><p class="content-note">قد يتغير ترتيب الخطوات حسب حالة الموقع، ولا يُنفذ أي عمل إضافي خارج النطاق إلا بعد توضيح الحاجة إليه.</p></section>
-
-      <section class="content-block content-block--split"><div><span class="eyebrow eyebrow--water">قبل الزيارة</span><h2>معلومات تساعد على تجهيز الطلب</h2><ul class="plain-checks">${prep.map((item) => `<li>${item}</li>`).join("")}</ul></div><aside class="safety-card"><span>${icon("shield")}</span><h3>السلامة أولًا</h3><p>${safetyNote}</p></aside></section>
-
-      <section class="content-block" id="faq"><span class="eyebrow">أسئلة شائعة</span><h2>أسئلة عن ${service.title}</h2><div class="faq">${service.faqs.map(([question, answer]) => `<details><summary>${question}</summary><p>${answer}</p></details>`).join("")}</div></section>
-    </article>
-
-    <aside class="service-aside"><div class="request-card"><span class="request-card__icon">${icon(service.icon)}</span><small>${categoryHeading(service)}</small><h2>${isFinishing ? "حدثنا عن مشروعك" : "اطلب تقييم حالتك"}</h2><p>${isFinishing ? "أرسل الحي ونوع الموقع والمقاسات والفكرة المطلوبة وصورًا آمنة إن أمكن." : "أرسل اسم الحي ونوع الموقع ووصف المشكلة وصورًا آمنة إن أمكن."}</p><a class="button button--primary" href="${whatsappUrl(service)}" target="_blank" rel="noreferrer">${icon("whatsapp", true)}فتح واتساب</a><a class="button button--secondary" href="tel:${site.phoneInternational}">${icon("phone")}<bdi>${site.phoneDisplay}</bdi></a><div class="request-card__meta"><span>نطاق الخدمة</span><b>مدينة الرياض</b></div></div><a class="back-services" href="/services">${icon("services")} تصفح جميع الخدمات</a></aside>
-    </div></section>
-
-    <section class="section section--soft related-services"><div class="container"><div class="section-head"><span class="eyebrow${service.category === "water" ? " eyebrow--water" : ""}">خدمات مرتبطة</span><h2>قد تحتاج أيضًا إلى</h2><p>صفحات تساعدك على مقارنة نطاق الأعمال القريبة من طلبك.</p></div><div class="catalog catalog--related">${related.map((item) => serviceCard(item, "h3")).join("")}</div></div></section>
-
-    <section class="contact-banner"><div class="container contact-banner__inner"><div><span class="eyebrow eyebrow--light">تواصل مباشر</span><h2>جاهز لطلب ${service.title}؟</h2><p>اتصال أو واتساب على الرقم الموحد لخدمات أبو تالين داخل الرياض.</p></div><div class="contact-banner__actions"><a class="button button--primary" href="${whatsappUrl(service)}" target="_blank" rel="noreferrer">${icon("whatsapp", true)}واتساب</a><a class="button button--water" href="tel:${site.phoneInternational}">${icon("phone")}<bdi>${site.phoneDisplay}</bdi></a></div></div></section>
-  </main>
-  ${footer()}
-</body>
-</html>`;
+function pageSchema(path, name, description, type = "WebPage", extra = {}) {
+  const url = `${site.origin}${path}`;
+  const page = { "@type": type, "@id": `${url}#webpage`, url, name, description, inLanguage: "ar-SA", isPartOf: { "@id": websiteId }, about: { "@id": businessId }, primaryImageOfPage: { "@id": `${site.origin}/#brand-image` }, ...extra };
+  if (path === "/") return [page];
+  const crumbs = [{ "@type": "ListItem", position: 1, name: "الرئيسية", item: `${site.origin}/` }];
+  if (path.startsWith("/services/")) crumbs.push({ "@type": "ListItem", position: 2, name: "الخدمات", item: `${site.origin}/services` });
+  crumbs.push({ "@type": "ListItem", position: crumbs.length + 1, name, item: url });
+  page.breadcrumb = { "@id": `${url}#breadcrumb` };
+  return [page, { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, itemListElement: crumbs }];
 }
 
-function renderSitemap() {
-  const routes = ["/", "/services", "/about", "/contact", ...services.map((service) => `/services/${service.slug}`)];
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${routes.map((route) => `  <url><loc>${site.origin}${route}</loc><changefreq>${route === "/" ? "weekly" : "monthly"}</changefreq><priority>${route === "/" ? "1.0" : route === "/services" ? "0.9" : route.startsWith("/services/") ? "0.8" : "0.7"}</priority></url>`).join("\n")}\n</urlset>\n`;
+function actions(service, dark = false) {
+  return `<div class="hero__actions"><a class="button button--primary" href="${service ? whatsappUrl(service) : `https://wa.me/${site.whatsapp}`}" target="_blank" rel="noopener noreferrer">${icon("whatsapp", true)}ناقش مشروعك عبر واتساب</a><a class="button ${dark ? "button--outline" : "button--dark"}" href="tel:${site.phoneInternational}">${icon("phone")}<bdi>${site.phoneDisplay}</bdi></a></div>`;
+}
+function banner(title = "خلّ الفكرة تبدأ من التفاصيل", description = "أرسل الحي والمقاسات التقريبية وصورة الفكرة، لنحدد معك نطاق العمل والخامات المناسبة.") {
+  return `<section class="contact-banner"><div class="container contact-banner__inner"><div><span class="eyebrow eyebrow--light">مشروعك القادم</span><h2>${title}</h2><p>${description}</p></div><div class="contact-banner__actions"><a class="button button--primary" href="/contact">جهّز طلبك ${icon("services")}</a><a class="button button--water" href="tel:${site.phoneInternational}">${icon("phone")}اتصل بأبو تالين</a></div></div></section>`;
+}
+function faq(items, title = "تفاصيل تساعدك قبل البداية") {
+  return `<section class="section section--soft" id="faq"><div class="container faq-layout"><div><span class="eyebrow">أسئلة شائعة</span><h2>${title}</h2><p>اختيار الخامة والتصميم يبدأ بفهم المساحة ونطاق الاستخدام.</p><a class="text-link" href="/contact">ناقش تفاصيل موقعك معنا ←</a></div><div class="faq">${items.map(([q,a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join("")}</div></div></section>`;
+}
+const homeFaqs = [
+  ["ما الخدمات التي يقدمها أبو تالين في الرياض؟", "تشمل الخدمات تركيب الساندويتش بانل للأسقف والجدران، وأعمال الجبس بورد والقواطع، وديكورات الجدران والأسقف. يُحدد نطاق كل مشروع والمواد المناسبة بعد مراجعة الموقع والتفاصيل."],
+  ["ما الفرق بين الساندويتش بانل والجبس بورد؟", "يختلف الاستخدام والخامة وطريقة التثبيت بينهما. تُراجع حاجة الموقع أولًا: تغطية أو تقسيم بألواح بانل، أم سقف أو قاطع جبس بورد وتفاصيل ديكور داخلية. لا تُعامل الخامتان كبديلين متطابقين لكل استخدام."],
+  ["كيف يتحدد سعر المشروع؟", "يعتمد على المساحة والخامة وسماكتها والتصميم وحالة الموقع والهيكل والفتحات المطلوبة. أرسل الأبعاد التقريبية والفكرة، وقد تحتاج بعض المواقع إلى معاينة قبل اعتماد العرض."],
+  ["هل يمكن تنفيذ فكرة من صورة مرجعية؟", "نراجع الصورة مع أبعاد المساحة وارتفاعها والخامات المتاحة، ثم نحدد ما يناسب الموقع ونطاق التنفيذ المتفق عليه."],
+  ["هل تخدمون أحياء الرياض؟", "نطاق الخدمة مدينة الرياض. أرسل اسم الحي ونوع الموقع لتأكيد إمكانية الزيارة والموعد المناسب."],
+  ["ماذا أجهز قبل التواصل؟", "نوع الخدمة، اسم الحي، نوع المساحة، أبعاد تقريبية إن توفرت، وصورة آمنة للموقع أو مرجع للتصميم. لا يلزم توفر مخطط متكامل لبدء مناقشة الطلب."]
+];
+
+function requestForm() {
+ return `<section class="section request-section" id="request"><div class="container request-layout"><div class="request-intro"><span class="eyebrow">طلب مرتب من أول رسالة</span><h2>عندك مساحة؟<br><span>خلّنا نعرف فكرتك.</span></h2><p>اختر الخدمة وأضف ما تعرفه عن الموقع. سنجهّز لك رسالة لمراجعتها داخل واتساب قبل إرسالها.</p><div class="brief-points"><span>${icon("home")}الحي ونوع المساحة</span><span>${icon("services")}المقاسات أو الفكرة</span><span>${icon("shield")}نطاق واضح قبل التنفيذ</span></div><a class="direct-contact" href="tel:${site.phoneInternational}">تفضّل الاتصال؟ <bdi>${site.phoneDisplay}</bdi> ←</a></div><form class="project-form" data-project-form aria-label="تجهيز طلب مشروع عبر واتساب"><div class="project-form__top"><span>تفاصيل مشروعك</span><small>المقاسات التقريبية تكفي للبدء</small></div><label for="project-service">الخدمة المطلوبة</label><select name="service" id="project-service">${services.map((s) => `<option value="${s.slug}">${s.title}</option>`).join("")}</select><div class="form-row"><div><label for="project-district">الحي في الرياض <small>اختياري</small></label><input id="project-district" name="district" type="text" maxlength="80" autocomplete="address-level3" placeholder="مثال: حي الياسمين"></div><div><label for="project-space">نوع المساحة <small>اختياري</small></label><select id="project-space" name="space"><option value="">اختر نوع الموقع</option><option>منزل أو فيلا</option><option>مكتب أو محل</option><option>ملحق أو مساحة أخرى</option></select></div></div><label for="project-details">المقاسات والفكرة <small>اختياري</small></label><textarea name="details" id="project-details" rows="3" maxlength="700" placeholder="أبعاد تقريبية، سقف أو جدار، أو وصف الفكرة المطلوبة..."></textarea><a class="button button--dark project-form__submit" data-quote-link href="https://wa.me/${site.whatsapp}" target="_blank" rel="noopener noreferrer">${icon("whatsapp",true)}جهّز رسالتي على واتساب <span aria-hidden="true">←</span></a><p class="form-note">راجع الرسالة وأضف صور الموقع داخل واتساب قبل الإرسال. السعر والموعد بعد مراجعة التفاصيل.</p></form></div></section>`;
 }
 
-await mkdir("services", { recursive: true });
-await writeFile("services.html", renderServicesIndex());
-await Promise.all(services.map((service) => writeFile(`services/${service.slug}.html`, renderServicePage(service))));
-await writeFile("sitemap.xml", renderSitemap());
-console.log(`Generated services index, ${services.length} detail pages, and sitemap.`);
+function home() {
+ const schema = pageSchema("/", site.name, site.description, "WebPage", { mainEntity: { "@id": businessId } });
+ return `${documentHead({title:`${site.name} | الرياض`,description:site.description,canonical:`${site.origin}/`,schema})}<body>${header("home")}<main id="main-content">
+ <section class="atelier-hero"><div class="container atelier-hero__grid"><div class="atelier-hero__copy"><span class="eyebrow eyebrow--light">حلول للأسقف والجدران · الرياض</span><h1>ساندويتش بانل<br> <span>وديكورات ابو تالين</span></h1><p class="atelier-hero__lede">من تغطية المساحة إلى تفاصيلها الأخيرة.</p><p>تركيب ألواح الساندويتش بانل، وأعمال الجبس بورد وديكورات الجدران والأسقف؛ بفكرة تناسب المكان، ونطاق عمل واضح قبل البداية.</p>${actions(null,true)}<div class="hero-facts"><span>${icon("home")}منازل ومنشآت</span><span>${icon("services")}بانل · جبس · ديكور</span><span>${icon("shield")}داخل الرياض</span></div></div><div class="blueprint-visual"><div class="blueprint-visual__top"><span>من الخامة إلى المساحة</span><b>01 / 03</b></div><div class="blueprint-visual__image"><img src="/assets/services/sandwich-panel.webp" width="1200" height="800" alt="رسم توضيحي لطبقات ألواح الساندويتش بانل وتفاصيل تكوينها" fetchpriority="high" decoding="async"></div><div class="blueprint-visual__caption"><span class="illustration-label">رسم توضيحي</span><strong>طبقات متكاملة.<br>وتفاصيل تستحق الاهتمام.</strong><small>تُحدد مواصفات الألواح والتثبيت حسب الاستخدام وحالة الموقع.</small></div><div class="visual-services">${services.map((s,i)=>`<a href="/services/${s.slug}"><b>0${i+1}</b><span>${s.title}</span>${icon(s.icon)}</a>`).join("")}</div></div></div></section>
+ <section class="service-overview section" id="services"><div class="container"><div class="section-head section-head--split"><div><span class="eyebrow">ثلاثة مسارات. وتفاصيل تخص مكانك.</span><h2>اختَر الخدمة الأقرب لفكرتك</h2></div><p>لكل مساحة احتياج مختلف. استعرض نطاق كل خدمة، ثم أرسل لنا تفاصيل موقعك.</p></div><div class="catalog">${services.map(s=>serviceCard(s)).join("")}</div></div></section>
+ <section class="section section--warm"><div class="container design-story"><div class="design-story__media"><img src="/assets/services/gypsum-board.webp" width="1200" height="800" loading="lazy" decoding="async" alt="رسم توضيحي لتنسيق سقف جبس بورد مع الإضاءة المحيطية"><span class="media-note">تصوّر توضيحي للديكور</span></div><div class="design-story__copy"><span class="eyebrow">التفاصيل قبل التنفيذ</span><h2>مساحة متناسقة<br><em>تبدأ بقرارات واضحة.</em></h2><p>المقاسات، وارتفاع السقف، والخامة، والفتحات؛ تفاصيل صغيرة تصنع فرقًا في شكل المكان واستخدامه. نناقشها معك قبل تحديد الأعمال المطلوبة.</p><div class="decision-list"><div><b>01</b><span><strong>نفهم المساحة</strong><small>نوع الموقع، أبعاده، وحالته الحالية.</small></span></div><div><b>02</b><span><strong>ننسّق الفكرة والخامة</strong><small>التصميم، الألواح، الحواف، ومواقع الفتحات.</small></span></div><div><b>03</b><span><strong>نوضح نطاق العمل</strong><small>بنود التنفيذ وما يحتاج إلى معاينة أو تنسيق إضافي.</small></span></div></div><a class="text-link" href="/about">تعرّف على طريقة عملنا ←</a></div></div></section>
+ <section class="section"><div class="container"><div class="section-head"><span class="eyebrow">من الفكرة إلى مراجعة التفاصيل</span><h2>خطوات مشروعك مع أبو تالين</h2></div><div class="project-steps">${[["أرسل فكرتك","الخدمة والحي والمقاسات التقريبية أو صورة مرجعية."],["مراجعة الموقع","تحديد حالة المساحة والحاجة إلى معاينة."],["اتفاق على النطاق","توضيح الخامة والتصميم وبنود التنفيذ والموعد."],["تنفيذ ومراجعة","متابعة التركيب وتفاصيل الحواف والفتحات والتشطيب."]].map(([t,d],i)=>`<article><span>0${i+1}</span><h3>${t}</h3><p>${d}</p></article>`).join("")}</div></div></section>
+ ${requestForm()}${faq(homeFaqs)}${banner()}</main>${footer()}</body></html>`;
+}
+
+function serviceIndex() {
+ const name="خدمات الساندويتش بانل والجبس والديكور في الرياض";
+ const description="استعرض تركيب الساندويتش بانل وأعمال الجبس بورد وديكورات الجدران والأسقف في الرياض، مع نطاق كل خدمة وخطوات تجهيز طلبك.";
+ const list={"@type":"ItemList","@id":`${site.origin}/services#list`,name,numberOfItems:services.length,itemListElement:services.map((s,i)=>({"@type":"ListItem",position:i+1,url:serviceUrl(s),item:{"@id":serviceId(s)}}))};
+ const schema=[...pageSchema("/services",name,description,"CollectionPage",{mainEntity:{"@id":list["@id"]}}),list];
+ return `${documentHead({title:`الخدمات | ${site.name} بالرياض`,description,canonical:`${site.origin}/services`,schema})}<body>${header("services")}<main id="main-content"><section class="page-hero"><div class="container"><nav class="breadcrumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a> / الخدمات</nav><span class="eyebrow">خدمات مترابطة للمساحة</span><h1>${name}</h1><p>من الألواح والتغطيات إلى الأسقف الداخلية والتفاصيل الجدارية. اختر الخدمة، واستعرض ما يشمله نطاقها قبل التواصل.</p></div></section><section class="section section--finishing" id="finishing-services"><div class="container"><div class="catalog">${services.map((s,i)=>serviceCard(s,"h2",i===0)).join("")}</div></div></section><section class="section section--warm"><div class="container"><div class="section-head"><span class="eyebrow">وضوح يساعدك في الاختيار</span><h2>أي خدمة أقرب لطلبك؟</h2></div><div class="service-comparison">${[[services[0],"تغطية أو تقسيم بألواح بانل","الأبعاد، حالة الهيكل، نوع الألواح، الفتحات والتثبيت."],[services[1],"سقف داخلي أو قاطع جبس بورد","ارتفاع السقف، التصميم، مواقع الإنارة، والتجهيز للتشطيب."],[services[2],"خلفية جدارية وتفاصيل ديكور","المقاسات، صورة الفكرة، مادة التكسية وتناسق التشطيبات."]].map(([s,t,d])=>`<article><span>${icon(s.icon)}</span><h3>${t}</h3><p>${d}</p><a class="text-link" href="/services/${s.slug}">تفاصيل ${s.title} ←</a></article>`).join("")}</div><p class="content-note">قد يجمع المشروع أكثر من خدمة؛ يُحدد نطاق كل جزء والخامات والموعد بعد مراجعة تفاصيل الموقع.</p></div></section>${requestForm()}${banner()}</main>${footer()}</body></html>`;
+}
+
+function servicePage(service) {
+ const description=`${service.summary} اطلب ${service.title} في الرياض على ${site.phoneDisplay}.`;
+ const schema=pageSchema(`/services/${service.slug}`,`${service.title} في الرياض`,description,"WebPage",{mainEntity:{"@id":serviceId(service)},primaryImageOfPage:{"@type":"ImageObject",url:imageUrl(service),width:1200,height:800,caption:service.imageAlt}});
+ return `${documentHead({title:`${service.title} في الرياض | ${site.name}`,description,canonical:serviceUrl(service),image:imageUrl(service),schema})}<body>${header("services")}<main id="main-content"><section class="service-detail-hero"><div class="container service-hero-grid"><div class="service-hero-copy"><nav class="breadcrumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a> / <a href="/services">الخدمات</a> / ${service.title}</nav><span class="eyebrow">${service.category==="finishing"?"حلول الأسقف والجدران":"خدمات أبو تالين"} · الرياض</span><h1>${service.title}</h1><p>${service.lede}</p>${actions(service,true)}<div class="hero-facts"><span>${icon("home")}منازل ومنشآت</span><span>${icon("shield")}نطاق واضح</span><span>${icon("services")}خدمة داخل الرياض</span></div></div><figure class="service-hero-media"><img src="/assets/services/${service.image}" width="1200" height="800" fetchpriority="high" decoding="async" alt="${service.imageAlt}"><figcaption><span>${icon(service.icon)}</span><div><b>${service.title}</b><small>رسم توضيحي للخدمة</small></div></figcaption></figure></div></section><section class="section service-detail-section"><div class="container service-layout"><article class="service-content"><section class="content-block"><span class="eyebrow">نطاق الخدمة</span><h2>ماذا تشمل ${service.title}؟</h2><p>${service.summary} تحدد حالة الموقع والخامة والتصميم تفاصيل العرض النهائي.</p><ul class="check-grid">${service.scope.map(t=>`<li>${icon("shield")}<span>${t}</span></li>`).join("")}</ul></section><section class="content-block content-block--soft"><span class="eyebrow eyebrow--water">حدّد احتياجك</span><h2>متى تناسبك هذه الخدمة؟</h2><div class="signal-grid">${service.signals.map((t,i)=>`<div><b>0${i+1}</b><span>${t}</span></div>`).join("")}</div></section><section class="content-block"><span class="eyebrow">طريقة العمل</span><h2>خطوات من الفكرة إلى التنفيذ</h2><div class="detail-process">${service.steps.map((t,i)=>`<div><b>${i+1}</b><span>${t}</span></div>`).join("")}</div><p class="content-note">تُناقش الأعمال الإضافية والخامات والفتحات المطلوبة ضمن نطاق واضح قبل التنفيذ.</p></section><section class="content-block content-block--split"><div><span class="eyebrow eyebrow--water">قبل المعاينة</span><h2>جهّز تفاصيل موقعك</h2><ul class="plain-checks"><li>اسم الحي ونوع المساحة واستخدامها.</li><li>المقاسات التقريبية وارتفاع السقف إن توفر.</li><li>صورة مرجعية للفكرة أو الخامة المطلوبة.</li><li>صور آمنة توضح الموقع والفتحات القائمة.</li></ul></div><aside class="safety-card"><span>${icon("shield")}</span><h3>تنسيق يراعي الموقع</h3><p>تُراجع نقاط التثبيت والتمديدات والفتحات قبل العمل، وتُنسّق الأعمال التي تتطلب مختصين بحسب نطاق المشروع.</p></aside></section></article><aside class="service-aside"><div class="request-card"><span class="request-card__icon">${icon(service.icon)}</span><small>مشروع داخل الرياض</small><h2>لنفهم فكرتك أكثر</h2><p>أرسل المقاسات والحي والفكرة المطلوبة. نراجع التفاصيل معك لتحديد النطاق والخامات المناسبة.</p><a class="button button--primary" href="${contactLink(service)}">جهّز تفاصيل طلبك ←</a><a class="button button--secondary" href="tel:${site.phoneInternational}">${icon("phone")}<bdi>${site.phoneDisplay}</bdi></a><div class="request-card__meta"><span>نطاق الخدمة</span><b>مدينة الرياض</b></div></div><a class="back-services" href="/services">${icon("services")}جميع الخدمات</a></aside></div></section>${faq(service.faqs,`أسئلة عن ${service.title}`)}<section class="section"><div class="container"><div class="section-head"><span class="eyebrow">تفاصيل تكمل مشروعك</span><h2>خدمات مرتبطة</h2></div><div class="catalog catalog--pair">${services.filter(s=>s.slug!==service.slug).map(s=>serviceCard(s)).join("")}</div></div></section>${banner(`عندك فكرة لـ${service.title}؟`)}</main>${footer()}</body></html>`;
+}
+
+function about() {
+ const description="تعرّف على خدمات أبو تالين للساندويتش بانل والجبس والديكور في الرياض، وطريقة تحديد المقاسات والخامات ونطاق التنفيذ في موقع العميل.";
+ return `${documentHead({title:`من نحن | ${site.name}`,description,canonical:`${site.origin}/about`,schema:pageSchema("/about",`من نحن | ${site.name}`,description,"AboutPage")})}<body>${header("about")}<main id="main-content"><section class="page-hero"><div class="container"><nav class="breadcrumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a> / من نحن</nav><span class="eyebrow">أبو تالين · الرياض</span><h1>نرتّب التفاصيل<br>لتناسب فكرتك ومكانك.</h1><p>تركيب ساندويتش بانل، وأعمال جبس بورد، وديكورات جدران وأسقف للمنازل والفلل والمنشآت داخل مدينة الرياض.</p></div></section><section class="section"><div class="container design-story"><div class="design-story__media"><img src="/assets/services/wall-decor.webp" width="1200" height="800" alt="رسم توضيحي لتفاصيل ديكور جدار وإطارات وتكسية" loading="lazy" decoding="async"><span class="media-note">رسم توضيحي للفكرة</span></div><div class="design-story__copy"><span class="eyebrow">وضوح من أول خطوة</span><h2>نبدأ بفهم المساحة.<br><em>ونحدد ما تحتاجه.</em></h2><p>يختلف تركيب الألواح عن سقف الجبس أو تفاصيل الجدار. لذلك نبدأ بمعرفة الاستخدام والمقاسات وحالة الموقع، ثم نناقش الخامة والتصميم والفتحات وبنود العمل.</p><div class="decision-list"><div><b>01</b><span><strong>اختيار الخدمة</strong><small>بانل أو جبس بورد أو تفاصيل ديكور، وقد يجمع المشروع أكثر من مسار.</small></span></div><div><b>02</b><span><strong>مراجعة الموقع</strong><small>رفع الاحتياج وتحديد ما يحتاج إلى معاينة وتنسيق قبل التنفيذ.</small></span></div><div><b>03</b><span><strong>تحديد النطاق</strong><small>خامات وبنود وموعد يُتفق عليها بعد مراجعة التفاصيل.</small></span></div></div></div></div></section><section class="section section--warm"><div class="container"><div class="section-head"><span class="eyebrow">ما الذي تناقشه معنا؟</span><h2>تفاصيل عملية قبل شكل نهائي</h2></div><div class="project-steps">${[["استخدام المساحة","منزل أو فيلا أو مكتب أو محل، وطبيعة السقف أو الجدار."],["الخامة والتصميم","نوع الألواح أو التكسية، والمقاسات والشكل المناسب."],["الفتحات والالتقاءات","مواقع الفتحات والإنارة والحواف والتشطيبات القائمة."],["خدمة داخل الرياض","تأكيد الزيارة والموعد حسب الحي ونطاق المشروع."]].map(([t,d],i)=>`<article><span>0${i+1}</span><h3>${t}</h3><p>${d}</p></article>`).join("")}</div></div></section>${banner()}</main>${footer()}</body></html>`;
+}
+
+function contact() {
+ const description=`تواصل مع ${site.name} بالرياض على ${site.phoneDisplay}. جهّز طلب البانل أو الجبس والديكور بالمقاسات والحي والفكرة المطلوبة عبر واتساب.`;
+ return `${documentHead({title:`تواصل معنا | ${site.name}`,description,canonical:`${site.origin}/contact`,schema:pageSchema("/contact",`تواصل مع ${site.name}`,description,"ContactPage",{mainEntity:{"@id":businessId}})})}<body>${header("contact")}<main id="main-content"><section class="page-hero"><div class="container"><nav class="breadcrumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a> / تواصل معنا</nav><span class="eyebrow">تواصل مباشر مع أبو تالين</span><h1>خلّنا نبدأ<br>بتفاصيل مشروعك.</h1><p>ساندويتش بانل أو جبس بورد أو ديكور للجدران والأسقف. أرسل اسم الحي والمقاسات التقريبية وصورة فكرتك إن توفرت.</p></div></section><section class="contact-options"><div class="container contact-options__grid"><a href="tel:${site.phoneInternational}" class="contact-option"><span>${icon("phone")}</span><div><small>اتصال مباشر</small><strong><bdi>${site.phoneDisplay}</bdi></strong><p>ناقش طلبك ونطاق العمل المطلوب.</p></div></a><a href="https://wa.me/${site.whatsapp}" target="_blank" rel="noopener noreferrer" class="contact-option"><span>${icon("whatsapp",true)}</span><div><small>واتساب</small><strong>شارك المقاسات والفكرة</strong><p>أضف صور الموقع أو مرجع التصميم.</p></div></a><div class="contact-option"><span>${icon("home")}</span><div><small>نطاق الخدمة</small><strong>مدينة الرياض</strong><p>الخدمة في موقع العميل؛ الموعد بالتنسيق.</p></div></div></div></section>${requestForm()}<section class="section section--soft"><div class="container contact-area"><span class="eyebrow">زيارة تناسب نطاق طلبك</span><h2>نصل إلى موقعك داخل الرياض</h2><p>أرسل اسم الحي ونوع المساحة لتأكيد الموعد وإمكانية الزيارة. لا يوجد عنوان استقبال عملاء منشور؛ تُنفذ الخدمة في موقع العميل.</p><div class="chips"><span class="chip">شمال الرياض</span><span class="chip">شرق الرياض</span><span class="chip">وسط الرياض</span><span class="chip">غرب الرياض</span><span class="chip">جنوب الرياض</span></div></div></section></main>${footer()}</body></html>`;
+}
+
+function archivedPage(slug) {
+ const description="استعرض خدمات أبو تالين الحالية للساندويتش بانل والجبس بورد وديكورات الجدران والأسقف في الرياض.";
+ return `${documentHead({title:`الخدمات الحالية | ${site.name}`,description,canonical:`${site.origin}/services/${slug}`,robots:"noindex, follow",schema:pageSchema(`/services/${slug}`,"خدمات أبو تالين الحالية",description)})}<body>${header("services")}<main id="main-content"><section class="page-hero"><div class="container"><span class="eyebrow">أبو تالين · خدمات الأسقف والجدران</span><h1>تعرّف على خدماتنا الحالية</h1><p>${description}</p><a class="button button--dark" href="/services">استعرض الخدمات ←</a></div></section><section class="section"><div class="container"><div class="catalog">${services.map(s=>serviceCard(s)).join("")}</div></div></section>${banner()}</main>${footer()}</body></html>`;
+}
+
+function sitemap() {
+ const routes=["/","/services","/about","/contact",...services.map(s=>`/services/${s.slug}`)];
+ return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${routes.map(route=>`  <url><loc>${site.origin}${route}</loc><lastmod>${modified}</lastmod></url>`).join("\n")}\n</urlset>\n`;
+}
+await mkdir("services",{recursive:true});
+await writeFile("index.html",home());
+await writeFile("services.html",serviceIndex());
+await writeFile("about.html",about());
+await writeFile("contact.html",contact());
+await Promise.all(services.map(service=>writeFile(`services/${service.slug}.html`,servicePage(service))));
+await Promise.all(retiredServiceSlugs.map(slug=>writeFile(`services/${slug}.html`,archivedPage(slug))));
+await writeFile("sitemap.xml",sitemap());
+console.log(`Generated 7 active pages, ${retiredServiceSlugs.length} noindex legacy destinations, one schema graph per page, and sitemap.`);

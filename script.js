@@ -50,3 +50,38 @@ if (siteHeader) {
 document.querySelectorAll("[data-year]").forEach((node) => {
   node.textContent = new Date().getFullYear();
 });
+
+// Build a reviewable WhatsApp message locally; the visitor sends it in WhatsApp.
+document.querySelectorAll("[data-project-form]").forEach((form) => {
+  const service = form.querySelector('[name="service"]');
+  const district = form.querySelector('[name="district"]');
+  const space = form.querySelector('[name="space"]');
+  const details = form.querySelector('[name="details"]');
+  const link = form.querySelector("[data-quote-link]");
+  if (!service || !district || !space || !details || !link) return;
+
+  const requestedService = new URLSearchParams(window.location.search).get("service");
+  if ([...service.options].some((option) => option.value === requestedService)) {
+    service.value = requestedService;
+  }
+
+  const updateMessage = () => {
+    const lines = [
+      "مرحبًا أبو تالين، أرغب في مناقشة مشروع داخل الرياض.",
+      `الخدمة: ${service.options[service.selectedIndex].textContent.trim()}`,
+    ];
+    if (district.value.trim()) lines.push(`الحي: ${district.value.trim()}`);
+    if (space.value) lines.push(`نوع المساحة: ${space.value}`);
+    if (details.value.trim()) lines.push(`المقاسات والفكرة: ${details.value.trim()}`);
+    link.href = `https://wa.me/966505174342?text=${encodeURIComponent(lines.join("\n"))}`;
+  };
+
+  form.addEventListener("input", updateMessage);
+  form.addEventListener("change", updateMessage);
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    updateMessage();
+    link.focus();
+  });
+  updateMessage();
+});
