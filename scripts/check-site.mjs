@@ -15,7 +15,7 @@ for (const [file, html] of allHtml) {
   assert(html.includes('<html lang="ar" dir="rtl">'), `${file}: Arabic RTL document missing`);
   assert.equal([...html.matchAll(/<h1(?:\s[^>]*)?>/g)].length, 1, `${file}: expected one H1`);
   assert(html.includes(site.name) && html.includes(site.phoneDisplay), `${file}: business identity missing`);
-  assert(html.includes('styles.css?v=2026110903'), `${file}: stale stylesheet URL`);
+  assert(html.includes('styles.css?v=2026111401'), `${file}: stale stylesheet URL`);
   assert(html.includes('class="floating-actions"'), `${file}: floating contacts missing`);
   assert(!html.includes('mobile-bar'), `${file}: legacy fixed mobile bar`);
   const canonical = [...html.matchAll(/<link rel="canonical" href="([^"]+)"/g)];

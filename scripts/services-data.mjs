@@ -167,9 +167,24 @@ export const retiredServiceSlugs = [
 ];
 
 export const site = {
-  "name": "ساندويتش بانل وديكورات ابو تالين",
-  "description": "ساندويتش بانل وديكورات ابو تالين بالرياض لتركيب ألواح الأسقف والجدران وأعمال الجبس بورد والديكور. أرسل المقاسات والحي والفكرة المطلوبة على 0505174342.",
-  "shareImage": "https://abu-talin-electric-plumbing.vercel.app/assets/brand/abu-talin-share-v2.png",
+  "name": "ساندويتش بانل وديكور ابو تالين",
+  "description": "ساندويتش بانل وديكور ابو تالين بالرياض لتركيب ألواح الأسقف والجدران وأعمال الجبس بورد والديكور. أرسل المقاسات والحي والفكرة المطلوبة على 0505174342.",
+  "shareImage": "https://abu-talin-electric-plumbing.vercel.app/assets/brand/abu-talin-share-v3.png",
+  "shareImageWidth": 1731,
+  "shareImageHeight": 909,
+  "hours": [
+    {
+      "days": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
+      "label": "السبت إلى الخميس",
+      "opens": "09:00",
+      "closes": "22:00"
+    },
+    {
+      "days": ["Friday"],
+      "label": "الجمعة",
+      "closed": true
+    }
+  ],
   "origin": "https://abu-talin-electric-plumbing.vercel.app",
   "phoneDisplay": "0505174342",
   "phoneInternational": "+966505174342",
